@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    div.col-md-8
+        div.card(style="width: 40rem;")
+            each f in friends
+                div.card-body(class='bg-light '+f._id  id="f.id")
+                    div.row
+                        div.col-md-2
+                            p(align="center")
+                                img(class="rounded-circle border border-dark" src='/users/images/'+ f.photo width="50" height="50")  
+                        div.col-md-10
+                            p(class="text-center" aligh="right") 
+                                h4
+                                    a.float-left(href='/users/'+f._id)
+                                        strong #{f.nome}
+                            p(align="center")
+                                a.float-right(href="#" class="btn btn-success comment" data-id=f._id onclick="return false;" role="button" aria-pressed="true") Enviar Mensagem
+                                form(action='/messages/invite/'+f._id method="post")
+                                    input(type="hidden" id="text" name="text" value=user.nome +' deseja ser seu amigo.')
+                                    button.float-right( class="btn btn-danger float-right")
+                                        i(class="fas fa-user-plus") 
+                                        a  Pedir Amizade
+                div(class='widget-area no-padding blank' style="display: none" id='c'+f._id)
+                    div.status-upload
+                        form(action='/messages/'+f._id method="post")
+                            textarea(type="text" placeholder="Mensagem"  name="text" rows="4" cols="50")
+                            p
+                                button(type="submit" value="submit" class="btn btn-success green")
+                                    i(class="fa fa-share") 
+                                    a  Enviar Mensagem

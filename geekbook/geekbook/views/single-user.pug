@@ -1,0 +1,85 @@
+extends layout
+block content
+    div.col-md-8
+        div.card( style="width: 48rem;")
+            div.card-header(class='card text-white bg-dark mb-3')
+                div.row
+                    div.col-md-2
+                        img(class="rounded-circle border border-dark" src='/users/images/'+ profile.photo width="70" height="70") 
+                    div.col-md-10
+                        a.float-left
+                            h3
+                                strong #{profile.nome}
+                            h6
+                                p #{profile.curso}
+                        if !isFriend            
+                            form(action='/messages/invite/'+profile._id method="post")
+                                input(type="hidden" id="text" name="text" value=user.nome +' deseja ser seu amigo.')
+                                button.float-right( class="btn btn-danger float-right")
+                                    i(class="fas fa-user-plus") 
+                                    a  Pedido de Amizade
+                        else
+                            button.float-right( class="btn btn-success")
+                                    i(class="fas fa-check") 
+                                    a  Já são amigos
+            if posts.length > 0
+                each post in posts
+                    div.card-header
+                        small #{post.date}
+                        each c in post.category
+                            a.card-link(class="float-right ml-4" href='/posts/categoria/'+c) #{c}
+                        a.card-link(class="float-right ml-4" ) Categorias:
+                    div.card-body
+                        div.row
+                            div.col-md-2
+                                h5
+                                    a(href='/users/' + post.author._id )
+                                        strong #{post.author.name}
+                                p(align="center")
+                                    img(class="rounded-circle border border-dark" src='/users/images/'+ post.author.photo width="50" height="50") 
+                            div.col-md-10
+                                div.class.pull-right
+                                p
+                                    span.float-right
+                                        if post.likes > 0
+                                            button(type="button" class="btn btn-sm btn-secondary btn-lg disabled")
+                                                i(class="fa fa-heart" style="color: red")
+                                                a #{post.likes} Likes
+                                div.clearfix
+                                    p #{post.text}
+                        div.card-body 
+                                form(action='/posts/'+post._id+'/like' method="post")     
+                                    if post.comments.length > 0
+                                        a.card-link(class="post" href='/users/'+ user._id data-id=post._id id='v'+post._id onclick="return false;") Ver (#{post.comments.length}) Comentários
+                                    a.card-link(class="comment" href='/users/'+ user._id  data-id=post._id onclick="return false;") Comentar
+                                    button( class="btn btn-primary btn-sm float-right")
+                                        i(class="fa fa-reply") 
+                                        a  Partilhar
+                                    button(type='submit' class="btn btn-danger btn-sm float-right")
+                                        i(class="fa fa-heart") 
+                                        a  Like
+                    each comment in post.comments
+                        div.card-body(class='bg-light '+post._id style="display: none" id="comment")
+                            div.row
+                                div.col-md-2
+                                    a(href='/users/'+comment.author.id)
+                                        strong #{comment.author.name}
+                                    p(align="center")
+                                        img(class="rounded-circle border border-dark" src='/users/images/'+ comment.author.photo width="50" height="50")  
+                                div.col-md-10
+                                    div.class.pull-right
+                                            p(class="text-secondary text-center" aligh="right") 
+                                            small #{comment.date}
+                                    p(align="center")
+                                        a.float-right(href='/users/'+comment.author.id)
+                                            strong #{comment.author.name}
+                                    div.clearfix
+                                        p #{comment.text}
+                    div(class='widget-area no-padding blank' style="display: none" id='c'+post._id)
+                        div.status-upload
+                            form(action='/posts/'+post._id+'/comment' method="post")
+                                textarea(type="text" placeholder="Texto do comentário"  name="text" rows="4" cols="50")
+                                p
+                                    button(type="submit" value="submit" class="btn btn-success green")
+                                        i(class="fa fa-share") 
+                                        a  Enviar Comentário

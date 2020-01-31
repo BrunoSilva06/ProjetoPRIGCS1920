@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    div.col-md-8
+        div.card(style="width: 48rem;")
+             div.card-body
+                div.row
+                    div.col-md-8
+                        form(action="/users" method="post" enctype="multipart/form-data")
+                            h1 Editar Perfil
+                            div(class="form-group")
+                                label(for="nome") Nome
+                                input(type="text" class="form-control" id="nome"  name="nome" placeholder=user.nome required="true")
+                            div(class="form-group")
+                                label(for="curso") Curso
+                                select(class="form-control" name="curso" id="curso" required="true")
+                                    option MIEI
+                                    option LCC
+                            div(class="form-group")
+                                label(for="exampleInputEmail1") Email
+                                input(type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder=user.email)
+                                small(id="emailHelp" class="form-text text-muted") We'll never share your email with anyone else.
+                            div(class="form-group")
+                                label(for="password") Password
+                                input(type="password" class="form-control" id="password" name="password" required="true")
+                            div(class="form-group")
+                                label(for="bio") Biografia
+                                input(type="text" class="form-control" id="bio"  name="bio" required="true")
+                            div(class="form-group")
+                                label(for="photo") Fotografia
+                                input(type="file" class="form-control-file" id="photo" name="photo")
+                            div(class="form-group form-check")
+                                input(type="checkbox" class="form-check-input" id="subscribe")
+                                label(class="form-check-label" for="subscribe") Sim, desejo receber e-mails acerca de novas funcionalidades
+                            button(type="submit" class="btn btn-primary") Registar

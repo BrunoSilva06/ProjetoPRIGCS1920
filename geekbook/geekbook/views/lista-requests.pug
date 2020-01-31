@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    div.col-md-8
+        div.card(style="width: 40rem;")
+        
+            each m in messages
+                if m.type == 'invite'
+                    div.card-header(class='bg-light '+m._id  id="m._id")
+                        div.row
+                            div.col-md-2
+                                h5
+                                    a.float-left(href='/users/'+m.sender.id)
+                                        strong #{m.sender.name}
+                                img(class="rounded-circle border border-dark" src='/users/images/'+ m.sender.photo width="50" height="50")  
+                            div.col-md-10
+                                p.float-center #{m.text}
+                                form(action= '/messages/apagar/'+ m._id method='post')
+                                    button(type="submit" class="btn btn-danger float-right")
+                                        i(class="fas fa-times") 
+                                        a  Não
+                                form(action= '/users/'+user._id+ '/amigos/'+m.sender.id method='post')
+                                    button(type="submit" value="submit" class="btn btn-primary float-right")
+                                            i(class="fas fa-check") 
+                                            a  Sim
+                                

@@ -1,0 +1,93 @@
+=========================API==========================
+mongoimport -d filmes -c filmes --jsonArray movies.json
+
+mudar a BD na app.js
+por o dataset na diretoria data
+
+
+
+5ºModels exemplo
+======================================================
+const mongoose = require('mongoose')
+
+var filmeSchema = new mongoose.Schema({
+    title: String,
+    year: String,
+    cast: [String],
+    genres: [String]
+
+});
+
+module.exports = mongoose.model('filme', filmeSchema);
+======================================================
+
+6ºControllers exemplo
+======================================================
+var Obra = require('../models/obras')
+
+const Obras = module.exports
+
+//GET /obras
+Obras.listar = () =>{
+    return Obra
+            .find()
+            .exec()
+}
+
+//GET /obras/id
+Obras.consultar = id => {    
+    return Obra
+        .findOne({id: id})
+        .exec()
+}
+
+// POST /obras
+Obras.inserir = obra => {
+    var novo = new Obra(obra)
+    return novo.save()
+}
+
+// DELETE /obras/:id
+Obras.apagar = id =>{
+    return Obras.deleteOne({ _id: id }).exec();
+}
+
+//Filtrar por parametros
+Obras.filtrarAno = ano =>{
+    return Obra
+        .find({anoCriacao: ano})
+        .exec()
+}
+
+Obras.filtrarCompositor = c =>{
+    return Obra 
+        .find({"compositor" :  { '$regex' : c, '$options' : 'i' }})
+        .exec()
+}
+
+//query elaborada... agrupar por compositor..
+
+Obras.agruparCompositor = ()  =>{
+    return Obra 
+        .aggregate([{$unwind: "$compositor"}, {$group:{_id:"$compositor", numObras:{$sum:1}, obras:{$push: {t: "$nome"}}}},{$sort: {numObras:-1}}])
+        .exec()
+}
+
+Queries em mongoDB
+db.filmes.aggregate([{$unwind: "$cast"}])
+
+db.filmes.aggregate([{$unwind: "$cast"}, {$group: {_id: "$cast", numFilmes: {$sum: 1}}},{$sort: {numFilmes: -1}}, {$limit: 10}])
+
+
+
+db.filmes.aggregate([{$unwind: "$cast"}, {$group: {_id: "$cast", numFilmes: {$sum: 1},titulos:  {$push: {t: "$title"}}}},{$sort: {numFilmes: -1}}, {$limit: 10}])
+
+
+module.exports.listaLaureados = () => {
+    return Premio.aggregate(
+                [{$unwind:"$laureates"}, 
+                {$sort: {"laureates.firstname": -1, "laureates.surname": -1}}, 
+                {$project: {"laureates.firstname":1, "laureates.surname":1, category:1, year:1, _id:0}}]
+                )
+                .exec();
+}

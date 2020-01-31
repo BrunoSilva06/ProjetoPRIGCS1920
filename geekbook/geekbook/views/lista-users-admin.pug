@@ -1,0 +1,30 @@
+extends layout
+
+block content
+    div.card(style="width:48rem;")
+        table(class="table")
+            thead(class="thead-dark")
+                tr
+                    th(scope="col") Número
+                    th(scope="col") Foto
+                    th(scope="col") Nome
+                    th(scope="col") E-mail
+                    th(scope="col") Curso
+                    th(scope="col") Registo
+                    th(scope="col") Acções
+        
+            tbody
+                each user in users
+                    tr
+                        th(scope="row")= user._id
+                        td
+                            img(src='/users/images/' + user.photo height='40' width='40')
+                        td= user.nome
+                        td
+                            a(href='mailto:'+user.email) #{user.email}
+                        td= user.curso
+                        td= user.registo
+                        td
+                            a(href='/users/apagar/'+ user._id) Apagar |
+                            a(href='/useres/editar/'+ user._id)  Editar
+            h1 #{session}

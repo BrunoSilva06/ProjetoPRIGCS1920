@@ -1,0 +1,21 @@
+A prática de produção de software nem sempre é bem executada, pois durante a elaboração do mesmo são ignoradas, ou mesmo rejeitadas, quaisquer hipóteses de uma presente vulnerabilidade ou de uma futura falha. Para que tal não aconteça, deverão ser criadas medidas de prevenção, que neste caso se traduzem em estruturação bem fundamentada do código e de uma fase de testes para evidenciar o que está defeituoso.
+A nossa proposta passa pela análise e teste do código providenciado, com o intuito de reduzir o technical debt, reduzir as vulnerabilidades e eliminar todos os bugs que possam potenciar uma possível ameaça ao bom funcionamento do software.
+
+
+
+Análise
+
+
+Nesta fase do trabalho é necessário identificar os problemas para futuramente os solucionar.
+Para que o código desenvolvido não levante futuras preocupações é necessário identificar um conjunto de vários fatores :
+
+	- Technical debt : Valor temporal que precisa de ser utilizado para resolver/solucionar possiveis bugs
+	- Vulnerabilidades - que mais tarde se podem traduzir em ameaças
+	- Bugs : Inconsistências que consoante valores obtidos poderão originar erros em certos métodos ou até mesmo originar resultados incoerentes
+	- Tipos de bugs : um bug pode ter diferentes implicações, sendo que deverão ser tratados primeiro os bugs mais graves.
+
+
+Sonarqube
+
+
+Esta ferramenta permite identificar os problemas existentes no código, exibindo possíveis soluções para a correção dos mesmos.

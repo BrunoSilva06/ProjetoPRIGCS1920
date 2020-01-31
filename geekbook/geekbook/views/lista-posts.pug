@@ -1,0 +1,89 @@
+extends layout
+block content
+    div.col-md-8
+        div.card(style="width: 48rem;" )
+            if posts.length > 0
+                each post in posts
+                    div.card-header(id=post._id)
+                        small #{post.date}
+                        each c in post.category
+                            a.card-link(class="float-right ml-4" href='/posts/categoria/'+c) #{c}
+                        a.card-link(class="float-right ml-4" ) Categorias:
+                    div.card-body
+                        div.row
+                            div.col-md-2
+                                h5
+                                    a(href='/users/' + post.author._id )
+                                        strong #{post.author.name}
+                                p(align="center")
+                                    img(class="rounded-circle border border-dark" src='/users/images/'+ post.author.photo width="50" height="50") 
+                            div.col-md-10
+                                div.class.pull-right
+                                p
+                                    span.float-right
+                                        if post.likes > 0
+                                            button(type="button" class="btn btn-outline-dark")
+                                                i(class="p-2 fa fa-heart" style="color: red")
+                                                if post.likes == 1  
+                                                    a #{post.likes} Like
+                                                else  
+                                                    a #{post.likes} Likes
+                                div.clearfix
+                                    p #{post.text}
+                                    if post.type == 'code'
+                                        button.float-right(type="button" onclick="copyToClipboard('#codigo')" class="btn btn-warning") Copiar Código
+                                        textarea(class="form-control" name="code" id="codigo" rows="15" style="background-color:black;color:white;border:none;padding:2%;font-size:10px;font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;") #{post.code}
+                                    if post.type == 'images'
+                                        each i in post.files
+                                            a(href='#'+post._id class="pop")
+                                                img(src='/posts/'+post._id+'/images/'+ i.name  width="200" height="200")
+                                            p
+                                                small #{i.name} 
+                                    if post.type == 'files'
+                                        div(class="card border-dark mb-3" style="max-width: 36rem;")
+                                            each f in post.files
+                                                div.card-header
+                                                        i(class="far fa-file-alt")
+                                                        a.card-link(class="p-2"  href='/posts/'+post._id+'/images/'+ f.name) #{f.name}
+                                                        small(class="p-6") (#{f.size} bytes)
+                        div.card-body 
+                                form(action='/posts/'+post._id+'/like' method="post")     
+                                    if post.comments.length > 0
+                                        a.card-link(class="post" href='/users/'+ user._id data-id=post._id id='v'+post._id onclick="return false;") Ver (#{post.comments.length}) Comentários
+                                    a.card-link(class="comment" href='/users/'+ user._id  data-id=post._id onclick="return false;") Comentar
+                                    button( class="btn btn-primary btn-sm float-right")
+                                        i(class="fa fa-reply") 
+                                        a  Partilhar
+                                    button(type='submit' class="btn btn-danger btn-sm float-right")
+                                        i(class="fa fa-heart") 
+                                        a  Like
+                    each comment in post.comments
+                        div.card-body(class='bg-light '+post._id style="display: none" id="comment")
+                            div.row
+                                div.col-md-2
+                                    a(href='/users/'+user.id)
+                                        strong #{comment.author.name}
+                                    p(align="center")
+                                        img(class="rounded-circle border border-dark" src='/users/images/'+ comment.author.photo width="50" height="50")  
+                                div.col-md-10
+                                    div.class.pull-right
+                                            p(class="text-secondary text-center" aligh="right") 
+                                            small #{comment.date}
+                                    div.clearfix
+                                        p #{comment.text}
+                    div(class='widget-area no-padding blank' style="display: none" id='c'+post._id)
+                        div.status-upload
+                            form(action='/posts/'+post._id+'/comment' method="post")
+                                textarea(type="text" placeholder="Texto do comentário"  name="text" rows="4" cols="50")
+                                p
+                                    button(type="submit" value="submit" class="btn btn-success green")
+                                        i(class="fa fa-share") 
+                                        a  Enviar Comentário
+                div(class="modal fade" id="imagemodal" tabindex="-1" role="dialog"  aria-labelledby="imagemodal")
+                    div.modal-dialog(class="modal-dialog-centered" role="document")
+                        div.modal-content
+                            div.modal-body
+                                button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+                                    span(aria-hidden="true")
+                                        a &times;
+                                img(src="" class="imagepreview" style="width: 100%;")

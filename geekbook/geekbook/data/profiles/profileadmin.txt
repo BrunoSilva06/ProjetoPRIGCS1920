@@ -1,0 +1,8 @@
+nome: prh;
+numero: admin;
+email: admin@geekbook.com;
+password: 123456;
+curso: MIEI;
+homepage: http://www.geekbook.com/admin;
+cv: http://www.geekbook.com/melhorcvdomundo.pdf;
+bio: 'Olá eu sou o admin e mando nisto tudo';

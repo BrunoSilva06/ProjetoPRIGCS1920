@@ -1,0 +1,7 @@
+nome: Pedro;
+numero: 99999;
+email: pedro@gmail.com;
+password: 123456;
+curso: MIEI;
+photo: pedro.jpg;
+bio: 'Olá eu sou o pedro';

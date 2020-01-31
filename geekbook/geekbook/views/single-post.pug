@@ -1,0 +1,66 @@
+extends layout
+block content
+    div.col-md-8
+        div.card(style="width: 48rem;")
+            div.card-header
+                a.card-link(class="float-left")
+                    small #{post.date}
+                each c in post.category
+                    a.card-link(class="float-right ml-4" href='/posts/categoria/'+c) #{c}
+                a.card-link(class="float-right ml-4" ) Categorias:
+            div.card-body
+                div.row
+                    div.col-md-2
+                        h5
+                            a(href='/users/'+user._id)
+                                strong #{post.author.name}
+                        p(align="center")
+                            img(class="rounded-circle border border-dark" src='/users/images/'+ post.author.photo width="50" height="50") 
+                    div.col-md-10
+                        div.class.pull-right
+                        p
+                            span.float-right
+                                i(class="text-warning fa fa-star")
+                            span.float-right
+                                i(class="text-warning fa fa-star")
+                            span.float-right
+                                i(class="text-warning fa fa-star")
+                            span.float-right
+                                i(class="text-warning fa fa-star")
+                        div.clearfix
+                            p #{post.text}
+            div.card-body 
+                if post.comments.length > 0
+                    a.card-link(class="post" href='/users/'+ user._id data-id=post._id id='v'+post._id onclick="return false;") Ver (#{post.comments.length}) Comentários
+                a.card-link(class="comment" href='/users/'+ user._id  data-id=post._id onclick="return false;") Comentar
+                button( class="btn btn-primary float-right")
+                            i(class="fa fa-reply") 
+                            a  Partilhar
+                button( class="btn btn-danger float-right")
+                            i(class="fa fa-heart") 
+                            a  Like
+        each comment in post.comments
+            div.card-body(class='bg-light '+post._id style="display: none" id="comment")
+                div.row
+                    div.col-md-2
+                        a(href='/users/'+user._id)
+                            strong #{post.author.name}
+                        p(align="center")
+                            img(class="rounded-circle border border-dark" src='/users/images/'+ comment.author.photo width="50" height="50")  
+                    div.col-md-10
+                        div.class.pull-right
+                                p(class="text-secondary text-center" aligh="right") 
+                                small #{comment.date}
+                        p(align="center")
+                            a.float-right(href='/users/'+comment.author.id)
+                                strong #{comment.author.name}
+                        div.clearfix
+                            p #{comment.text}
+        div(class='widget-area no-padding blank' style="display: none" id='c'+post._id)
+            div.status-upload
+                form(action='/posts/'+post._id+'/comment' method="post")
+                    textarea(type="text" placeholder="Texto do comentário"  name="text" rows="4" cols="50")
+                    p
+                        button(type="submit" value="submit" class="btn btn-success green")
+                            i(class="fa fa-share") 
+                            a  Enviar Comentário

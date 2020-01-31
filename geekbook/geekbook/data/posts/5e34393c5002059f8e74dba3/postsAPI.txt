@@ -1,0 +1,69 @@
+var express = require('express');
+var Posts = require('../controllers/posts')
+var Users = require('../controllers/users')
+var router = express.Router();
+
+/* GET users listing. */
+router.get('/', function(req, res) {
+    Posts.listar()
+    .then(dados => res.jsonp(dados))
+    .catch(erro => res.status(500).jsonp(erro))
+});
+
+router.post('/', function(req, res) {
+    Posts.inserir(req.body)
+      .then(dados => res.jsonp(dados))
+      .catch(erro => res.status(500).jsonp(erro))
+});
+
+router.get('/curso/:curso', function(req, res) {
+  Posts.getCurso(req.params.curso)
+  .then(dados => res.jsonp(dados))
+  .catch(erro => res.status(500).jsonp(erro))
+});
+
+
+router.post('/:id/comment', function(req, res) {
+    Posts.comentar(req.params.id,req.body)
+    .then(dados => res.jsonp(dados))
+    .catch(erro => res.status(500).jsonp(erro))
+});
+
+router.post('/:id/like', function(req, res) {
+  Posts.like(req.params.id)
+  .then(dados => res.jsonp(dados))
+  .catch(erro => res.status(500).jsonp(erro))
+});
+
+
+router.get('/:id', function(req, res) {
+    Posts.consultar(req.params.id)
+    .then(dados => res.jsonp(dados))
+    .catch(erro => res.status(500).jsonp(erro))
+});
+
+router.get('/user/:id', async function(req, res) {
+  
+  if(req.query.friends == 'true'){
+    Posts.consultarAmigo(req.params.id)
+    .then(dados => res.jsonp(dados))
+    .catch(erro => res.status(500).jsonp(erro))
+  }
+  else{
+    Posts.consultarUser(req.params.id)
+    .then(dados => res.jsonp(dados))
+    .catch(erro => res.status(500).jsonp(erro))
+  }
+  
+});
+
+router.delete('/:id', function(req, res) {
+  Posts.apagar(req.params.id)
+  .then(dados => res.jsonp(dados))
+  .catch(erro => res.status(500).jsonp(erro))
+});
+
+
+
+  
+module.exports = router;

@@ -1,0 +1,34 @@
+block navbar
+    nav(class="navbar navbar-expand-lg navbar-dark bg-primary")
+      a(class="navbar-brand" href="/posts") GeekBook
+      div(class="collapse navbar-collapse" id="navbarNavAltMarkup")
+        div(class="navbar-nav")
+          a(class="nav-item nav-link active" href="#") Home 
+            span(class="sr-only") (current)
+          if isAuthenticated
+            a(class="nav-item nav-link" href="/post") Post
+            a(class="nav-item nav-link" href='/posts/curso/'+user.curso) #{user.curso}
+        if isAuthenticated      
+          div(class="navbar-nav flex-fill justify-content-center")
+            form(action="/users" method="get")
+              div(class="input-group input-group-sm mb-1")
+                  input(type="text" placeholder="Procurar Utilizadores..." class="form-control" name="nome")
+                  button(type="submit" class="btn btn-light btn-sm") Procurar
+      if isAuthenticated
+        div(class="navbar-nav")
+            img(class="border border-dark" src='/users/images/' + user.photo alt=user.name height="40" width="40" class="rounded-circle")
+            a(class="nav-item nav-link" href="/caralho") Bemvindo, #{user.nome}
+            a(class="nav-item nav-link" href="/logout") Logout
+      if !isAuthenticated    
+        form(class="form-inline" action="/login" method="post")
+          div(class="col-auto")
+            label(for="email" class="sr-only") Email
+            div(class="input-group mb-2")
+              div(class="input-group-prepend")
+                div(class="input-group-text") @
+              input(type="text" class="form-control" id="email" name="email" placeholder="E-mail")
+          div(class="form-group mx-sm-3 mb-2")
+            label(for="inputPassword2" class="sr-only") Password
+            input(type="password" class="form-control" id="inputPassword2" name="password" placeholder="Password")
+          button(type="submit" class="btn btn-primary mb-2 ") Login
+          a(class="btn btn-primary mb-2" href="/register" role="button") Registar

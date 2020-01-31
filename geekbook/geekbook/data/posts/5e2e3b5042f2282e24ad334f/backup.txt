@@ -1,0 +1,214 @@
+#include "graphs.h"
+
+int color[MAX];
+
+int has_ciclo(GraphL g, int s){
+    struct edge *p;
+    int flag = 0;
+    for(p = g[s]; p; p = p->next){
+        if(color[p->dest] = WHITE){
+            df_visit_sol(g, p->dest);
+        }
+        if(color[p->dest] = GRAY){
+            flag = 1;
+            return flag;
+        }
+    }
+    color[s] = BLACK;
+    return flag;
+}
+
+int checkcoloring_sol(GraphL g, int n, int colors[]){
+    struct edge *p;
+    int r = 1;
+    int u, coloru;
+    for(u = 0; u < n; u++){
+        coloru = colors[u];
+        for(p = g[u];p && r; p = p->next ){
+            if(colors[p->dest] == coloru) r = 0;
+                                        }
+    }
+    return r;
+}
+/*
+int ciclico(GraphL g, int n){
+   int u;
+   int ciclos;
+    for(u=0; u<n; u++)
+        color[u] = WHITE;
+    
+    
+    for(u=0; u<n; u++){
+        if(color[u] == WHITE){
+            ciclos = has_ciclo(g,u);
+            if(ciclos) return 1;
+        }
+    }
+    return 0;
+}*/
+
+
+int has_ciclo_sol(GraphL g, int s){
+    struct edge *p;
+    color[s] = GRAY;
+    printf("%d - Gray\n",s);
+    int flag = 0;
+    for(p = g[s]; p && !flag; p = p->next){
+        if(color[p->dest] == WHITE) has_ciclo_sol(g, p->dest);
+        if(color[p->dest] == GRAY) {
+            flag = 1;
+            return flag;
+        }
+    }
+    color[s] = BLACK;
+    printf("BLACK - %d\n",s);
+    return flag;
+}
+
+int ciclico_sol2(GraphL g, int n){
+    int u;
+    int ciclo = 0;
+    for(u = 0; u < n; u++)
+        color[u] = WHITE;
+        
+    for(u = 0; u < n; u++){
+        if(color[u] == WHITE){
+            ciclo = has_ciclo_sol(g,u);
+            if(ciclo) return 1;
+        }
+    }
+    return 0;
+}
+
+int ligacao (GraphL g, int v1, int v2, int seccao){
+    struct edge* p;
+    int c = 0;
+    int u = 0;
+    if(v1 == v2) return 1;
+    color[v1] = GRAY;
+    printf("GRAY - %d\n",v1);
+    for(p = g[v1]; p && !c ; p = p->next){
+        if(color[p->dest] == WHITE && p->weight > seccao){
+          c = ligacao(g,p->dest,v2,seccao);
+          if (c) return 1;
+        } 
+        
+    }
+    color[v1] = BLACK;
+    return 0;
+}
+
+
+
+void df_visit_sol(GraphL g, int s){
+    struct edge * p;
+    //char color[MAX]; // não é preciso pk é global
+    //int parent[MAX];
+    //color[s] = 'G';
+    //parent[s] = -1;
+    color[s] = GRAY;
+    printf("vertice %d\n",s);
+    for(p = g[s]; p; p = p->next){
+        if(color[p->dest] == WHITE){
+            df_visit_sol(g, p->dest);
+        }
+    }
+    color[s] = 'B';
+    printf("%d BLACK\n",s);
+    
+} 
+
+
+void dfs_sol(GraphL g, int n){
+    int u;
+    
+    for(u=0; u<n; u++){
+        color[u] = WHITE;
+    }
+    
+    for(u=0; u<n; u++)
+        if(color[u] == WHITE) df_visit_sol(g, u);
+}
+
+void bf_visit_sol(GraphL g, int s){
+    int first = 0,last = 0,q[MAX],u,v;
+    struct edge *p;
+    q[last++] = s; // mete s na posiçao 0
+    color[s] = GRAY;
+    printf(" %d - Gray\n",s);
+    while(first<last){
+        u = q[first++];
+        for(p = g[u]; p; p=p->next){
+            v = p->dest;
+            printf(" destino - %d cor = %d\n",v,color[v] );
+            if(color[v] == WHITE){
+                color[v] = GRAY;
+                printf(" %d - Gray\n", v);
+                q[last++] = v;
+            }
+        }
+    color[u] = BLACK;
+    printf(" %d - Black\n", u);
+        
+    }
+    
+}
+
+void bfs_sol(GraphL g, int n){
+    int u;
+    for (u = 0; u < n; u++){
+        color[u] = WHITE;
+    }
+    
+    for(u = 0; u < n; u++ ){
+        if(color[u] == WHITE) {
+            printf("visita ao %d\n", u);
+            bf_visit_sol(g,u);
+        }
+    }
+}
+
+
+
+void dists_sol(GraphL g, int s, int dist[]){
+    struct edge * p;
+    int q[MAX], first =0, last=0, u,v;
+    char vis[MAX];
+    
+    for(u=0; u <MAX; u++){
+        dist[u] = -1;
+        vis[u] = 0;
+    }
+    
+    vis[s] = 1;
+    dist[s] = 0;
+    q[last++] = s;
+    
+    while(first <last){
+        u = q[first++];
+        for(p=g[u]; p; p=p->next){
+            v = p->dest;
+            if(!vis[v]){
+                vis[v] = 1;
+                dist[v] = dist[u]+1;
+                q[last++] = v;
+            }
+        }
+    }
+}
+
+void shortestPath_sol (GraphL g, int s, int d){
+    struct edge *p;
+    int q[MAX], parent[MAX], first=0, last=0, u,v;
+    char vis[MAX];
+    
+    for(u = 0; u < MAX; u++){
+        parent[u] = -1;
+        vis[u] = 0;
+    }
+    
+    vis[s] = 1;
+    q[last++] = s;
+    
+  
+}

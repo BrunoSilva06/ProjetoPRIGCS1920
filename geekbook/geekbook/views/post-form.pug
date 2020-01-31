@@ -1,0 +1,49 @@
+extends layout
+block content
+    div.col-md-8
+        div.card(style="width: 48rem;")
+                div.card-body
+                    form(action="/posts" method="post" enctype="multipart/form-data")
+                        div(class="form-group")
+                            h2 O que deseja partilhar?    
+                        div(class="form-group")
+                            textarea(class="form-control" placeholder="Texto da publicação" id="exampleFormControlTextarea1" name="text" rows="3")   
+                        div(class="form-group" id="post")
+                            div(class="custom-control custom-radio custom-control-inline")
+                                input(type="radio" id="customRadioInline1" value="text" name="type" class="custom-control-input" checked)
+                                label(class="custom-control-label" for="customRadioInline1") Texto apenas
+                            div(class="custom-control custom-radio custom-control-inline")
+                                input(type="radio" id="customRadioInline2" value="images" name="type" class="custom-control-input files")
+                                label(class="custom-control-label" for="customRadioInline2") Anexar Imagens
+                            div(class="custom-control custom-radio custom-control-inline")
+                                input(type="radio" id="customRadioInline3" value="files" name="type" class="custom-control-input files")
+                                label(class="custom-control-label" for="customRadioInline3") Anexar Ficheiro(s)
+                            div(class="custom-control custom-radio custom-control-inline")
+                                input(type="radio" id="customRadioInline4" value="code" name="type" class="custom-control-input")
+                                label(class="custom-control-label" for="customRadioInline4") Anexar Código
+                        div(id="attachments")
+                        div(class="form-group")
+                            label(for="visibilidade") 
+                                h5 Visibilidade
+                            select(class="form-control" name="visibilidade" id="visibilidade" required="true")
+                                option(value="public") Público
+                                option(value=user.curso) Curso
+                                option(value="amigos") Amigos Apenas
+                        label 
+                            h5 Categoria
+                        div(class="form-check")
+                            input(class="form-check-input" type="checkbox" value="teste" id="defaultCheck1" name="category")
+                            label(class="form-check-label" for="defaultCheck1") Informação
+                        div(class="form-check")
+                            input(class="form-check-input" type="checkbox" value="materia" id="defaultCheck2" name="category") 
+                            label(class="form-check-label" for="defaultCheck2") Matéria
+                        div(class="form-check")
+                            input(class="form-check-input" type="checkbox" value="codigo" id="defaultCheck2" name="category") 
+                            label(class="form-check-label" for="defaultCheck2") Código
+                        div(class="form-check")
+                            input(class="form-check-input" type="checkbox" value="aviso" id="defaultCheck2" name="category") 
+                            label(class="form-check-label" for="defaultCheck2") Aviso
+                            input(class="form-check-input" type="hidden" id="author_id" name="author_id" value= user._id)
+                            input(class="form-check-input" type="hidden" id="author_name"  name="author_name" value= user.nome)
+                            input(class="form-check-input" type="hidden" id="author_photo"  name="author_photo" value= user.photo)
+                        button(type="submit" class="btn btn-primary") Submeter

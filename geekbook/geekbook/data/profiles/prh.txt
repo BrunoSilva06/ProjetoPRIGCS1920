@@ -1,0 +1,8 @@
+nome: prh;
+numero: 99999;
+email: prh@di.uminho.pt;
+password: 123456;
+curso: MIEI;
+homepage: http://www4.di.uminho.pt/~prh/;
+cv: http://www4.di.uminho.pt/~prh/ecvprh18jul.pdf;
+bio: 'Sou o Pedro Rangel Henriques e sou Professor do Departamento de Informática da Universidade do Minho';

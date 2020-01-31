@@ -1,0 +1,55 @@
+block sidebar
+    if isAuthenticated
+        div.col
+            div.card(style="width:18rem;")
+                img.card-img-top(src='/users/images/1920x1200.jpg' alt="card image cap")
+                div.card-body
+                    h5.card-title  #{user.nome}
+                    small
+                        p(class="b-2")
+                            i= user.bio
+                    if(user.homepage)
+                        small Homepage:
+                        p
+                            small
+                                a( href= user.homepage target="_blank") #{user.homepage}
+                    if(user.cv)
+                        small C.V
+                            p   
+                                small
+                                    a( href=user.cv target="_blank") #{user.cv}
+                    small
+                        a( href='/editar/'+ user._id) Editar Perfil
+                ul(class="list-group list-group-flush")
+                    if(user._id != 'admin')
+                        li.list-group-item 
+                            a.card-link(class="text-dark ml-2" href='/messages/'+ user._id) Mensagens
+                            span.float-left
+                                i(class="fa fa-envelope" )
+                        li.list-group-item 
+                            a.card-link(class="text-dark ml-2" href='/users/'+ user._id + '/amigos') Ver Amigos
+                            span.float-left
+                                i(class="fa fa-users" )     
+                        li.list-group-item
+                            a.card-link(class="text-dark ml-2" href='/messages/requests/'+ user._id) Pedidos
+                            span.float-left
+                                i(class="fas fa-user-plus") 
+                        li.list-group-item
+                            a.card-link(class="text-dark ml-2" href='/messages/requests/'+ user._id) Definições
+                            span.float-left
+                                i(class="fas fa-cog") 
+                        li.list-group-item
+                            a.card-link(class="text-dark ml-2" href='/post') Fazer Publicação
+                            span.float-left
+                                i(class="fas fa-upload")
+                    else
+                        li.list-group-item 
+                            a.card-link(class="text-dark ml-2" href='/users/') Gerir Utilizadores
+                            span.float-left
+                                i(class="fa fa-users" )
+                        li.list-group-item
+                            a.card-link(class="text-dark ml-2" href='/posts') Gerir Posts
+                            span.float-left
+                                i(class="fas fa-upload") 
+                div.card-body 
+                    a.card-link(href='/editar/'+ user._id) Editar Perfil

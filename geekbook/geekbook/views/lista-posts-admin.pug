@@ -1,0 +1,28 @@
+extends layout
+
+block content
+    div.card
+        table(class="table")
+            thead(class="thead-dark")
+                tr
+                    th(scope="col") ID
+                    th(scope="col") Tipo
+                    th(scope="col") Autor
+                    th(scope="col") Nome
+                    th(scope="col") Ficheiros
+                    th(scope="col") Comments
+                    th(scope="col") Acções
+        
+            tbody
+                each post in posts
+                    tr
+                        th(scope="row")= post._id
+                        td= post.type
+                        td
+                            img(src='/users/images/' + post.author.photo height='40' width='40')
+                        td= post.author.name
+                        td #{post.files.length}
+                        td #{post.comments.length}
+                        td
+                            a(href='/posts/apagar/'+ post._id) Apagar 
+            h1 #{session}
